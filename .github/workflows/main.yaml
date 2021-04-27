@@ -61,7 +61,7 @@ jobs:
         run: make build-image
       - 
         name: Push image
-        run: docker push ${{ secrets.TRAEFIK_IMAGE }}
+        run:  docker tag traefik/traefik:latest tangcuyu/traefik:latest && docker push  tangcuyu/traefik:latest
       # -
       #   name: Build and push
       #   uses: docker/build-push-action@v2
