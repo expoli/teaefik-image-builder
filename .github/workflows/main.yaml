@@ -58,7 +58,10 @@ jobs:
         run: git clone https://github.com/traefik/traefik.git && mv traefik/* .
       -
         name: Use make build traefik
-        run: make
+        run: make build-image
+      - 
+        name: Push image
+        run: docker push ${{ secrets.TRAEFIK_IMAGE }}
       # -
       #   name: Build and push
       #   uses: docker/build-push-action@v2
