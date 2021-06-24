@@ -55,21 +55,21 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Get latest code
-        run: git clone https://github.com/traefik/traefik.git && mv traefik/* .
+        run: git clone https://github.com/traefik/traefik.git && mv traefik/* . && mv build.Dockerfile Dockerfile
       -
         name: Use make build traefik
         run: make build-image
-      - 
-        name: Push image
-        run:  docker tag traefik/traefik:latest tangcuyu/traefik:latest && docker push  tangcuyu/traefik:latest
-      # -
-      #   name: Build and push
-      #   uses: docker/build-push-action@v2
-      #   with:
-      #     context: .
-      #     file: ./build.Dockerfile
-      #     platforms: linux/amd64,linux/arm64/v8,linux/arm/v6
-      #     push: ${{ github.event_name != 'pull_request' }}
-      #     tags: |
-      #       tangcuyu/traefik:latest
-      #       tangcuyu/traefik:${{ steps.date.outputs.today }}
+#       - 
+#         name: Push image
+#         run:  docker tag traefik/traefik:latest tangcuyu/traefik:latest && docker push  tangcuyu/traefik:latest
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: Dockerfile
+          platforms: linux/amd64,linux/arm64/v8,linux/arm/v6
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: |
+            tangcuyu/traefik:latest
+            tangcuyu/traefik:${{ steps.date.outputs.today }}
